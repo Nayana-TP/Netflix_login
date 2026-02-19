@@ -14,7 +14,6 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
-  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,7 +46,6 @@ function App() {
   const handleAuthSuccess = (userData) => {
     setIsAuthenticated(true);
     setUser(userData);
-    setError(null);
   };
 
   const handleLogout = () => {
