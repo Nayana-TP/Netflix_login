@@ -14,6 +14,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -29,8 +30,9 @@ function App() {
         setPopular(popularData);
         setTopRated(topRatedData);
         setUpcoming(upcomingData);
-      } catch (error) {
-        console.error('Error fetching movie data:', error);
+      } catch (err) {
+        console.error('Error fetching movie data:', err);
+        setError('Failed to load movie data');
       } finally {
         setLoading(false);
       }
@@ -44,6 +46,7 @@ function App() {
   const handleAuthSuccess = (userData) => {
     setIsAuthenticated(true);
     setUser(userData);
+    setError(null);
   };
 
   const handleLogout = () => {
@@ -51,8 +54,28 @@ function App() {
     setUser(null);
   };
 
+  // Debug info
+  console.log('Environment API URL:', process.env.REACT_APP_API_URL);
+  console.log('Is Authenticated:', isAuthenticated);
+
   if (!isAuthenticated) {
     return <Auth onAuthSuccess={handleAuthSuccess} />;
+  }
+
+  if (error) {
+    return (
+      <div style={{ 
+        padding: '50px', 
+        textAlign: 'center', 
+        color: 'white', 
+        backgroundColor: '#141414',
+        minHeight: '100vh'
+      }}>
+        <h1>Error Loading Movies</h1>
+        <p>{error}</p>
+        <button onClick={() => setError(null)}>Try Again</button>
+      </div>
+    );
   }
 
   if (loading) {
