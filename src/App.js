@@ -32,7 +32,8 @@ function App() {
         setUpcoming(upcomingData);
       } catch (err) {
         console.error('Error fetching movie data:', err);
-        setError('Failed to load movie data');
+        // Don't set error, just use empty arrays
+        console.log('Continuing without movie data...');
       } finally {
         setLoading(false);
       }
@@ -58,26 +59,14 @@ function App() {
   console.log('Environment API URL:', process.env.REACT_APP_API_URL);
   console.log('Is Authenticated:', isAuthenticated);
 
-  if (!isAuthenticated) {
+  // For Vercel deployment, show demo mode if backend is not available
+  const isDemoMode = !process.env.REACT_APP_API_URL || process.env.REACT_APP_API_URL.includes('your-backend-url');
+  
+  if (!isAuthenticated && !isDemoMode) {
     return <Auth onAuthSuccess={handleAuthSuccess} />;
   }
 
-  if (error) {
-    return (
-      <div style={{ 
-        padding: '50px', 
-        textAlign: 'center', 
-        color: 'white', 
-        backgroundColor: '#141414',
-        minHeight: '100vh'
-      }}>
-        <h1>Error Loading Movies</h1>
-        <p>{error}</p>
-        <button onClick={() => setError(null)}>Try Again</button>
-      </div>
-    );
-  }
-
+  // Always show the app, even if movie data fails to load
   if (loading) {
     return (
       <div className="loading">
@@ -89,6 +78,17 @@ function App() {
   return (
     <div className="App">
       <Navbar user={user} onLogout={handleLogout} />
+      {isDemoMode && (
+        <div style={{
+          backgroundColor: '#e50914',
+          color: 'white',
+          padding: '10px',
+          textAlign: 'center',
+          fontSize: '14px'
+        }}>
+          🎬 Demo Mode - Running without backend authentication
+        </div>
+      )}
       <Featured movies={trending} />
       <div className="movie-rows">
         <MovieRow title="Trending Now" movies={trending} />

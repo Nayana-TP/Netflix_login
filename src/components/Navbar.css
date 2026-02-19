@@ -62,6 +62,16 @@
   background: rgba(229, 9, 20, 1);
 }
 
+.demo-badge {
+  background: #e50914;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
 .search-btn,
 .user-btn {
   background: none;

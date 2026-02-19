@@ -2,6 +2,8 @@ import React from 'react';
 import './Navbar.css';
 
 const Navbar = ({ user, onLogout }) => {
+  const isDemoMode = !process.env.REACT_APP_API_URL || process.env.REACT_APP_API_URL.includes('your-backend-url');
+  
   return (
     <nav className="navbar">
       <div className="navbar-content">
@@ -9,12 +11,19 @@ const Navbar = ({ user, onLogout }) => {
           <h1 className="logo">NETFLIX</h1>
         </div>
         <div className="navbar-right">
-          {user ? (
+          {user || isDemoMode ? (
             <div className="user-info">
-              <span className="welcome-text">Welcome, {user.username}</span>
-              <button className="logout-btn" onClick={onLogout}>
-                Logout
-              </button>
+              <span className="welcome-text">
+                Welcome, {user?.username || 'Demo User'}
+              </span>
+              {user && (
+                <button className="logout-btn" onClick={onLogout}>
+                  Logout
+                </button>
+              )}
+              {isDemoMode && !user && (
+                <span className="demo-badge">DEMO</span>
+              )}
             </div>
           ) : (
             <>
