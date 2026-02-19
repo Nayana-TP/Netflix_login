@@ -26,6 +26,7 @@ const Auth = ({ onAuthSuccess }) => {
   console.log('Auth - API URL:', process.env.REACT_APP_API_URL);
 
   const handleChange = (e) => {
+    if (!e || !e.target) return;
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
@@ -35,6 +36,7 @@ const Auth = ({ onAuthSuccess }) => {
   const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000/api';
 
   const handleSubmit = async (e) => {
+    if (!e) return;
     e.preventDefault();
     setLoading(true);
     setMessage('');
