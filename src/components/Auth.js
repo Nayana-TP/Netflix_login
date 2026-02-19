@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './Auth.css';
 
 const Auth = ({ onAuthSuccess }) => {
@@ -12,10 +12,18 @@ const Auth = ({ onAuthSuccess }) => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
 
+  // Debug: Log component mount
+  useEffect(() => {
+    console.log('Auth component mounted');
+  }, []);
+
   // Check if we're in demo mode (no backend available)
   const isDemoMode = !process.env.REACT_APP_API_URL || 
                      process.env.REACT_APP_API_URL.includes('your-backend-url') ||
                      process.env.REACT_APP_API_URL.includes('vercel.app/api');
+  
+  console.log('Auth - Is Demo Mode:', isDemoMode);
+  console.log('Auth - API URL:', process.env.REACT_APP_API_URL);
 
   const handleChange = (e) => {
     setFormData({

@@ -11,12 +11,19 @@ function App() {
   const [popular, setPopular] = useState([]);
   const [topRated, setTopRated] = useState([]);
   const [upcoming, setUpcoming] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
 
+  // Debug: Log component mount
+  useEffect(() => {
+    console.log('App component mounted');
+    console.log('Environment API URL:', process.env.REACT_APP_API_URL);
+  }, []);
+
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const [trendingData, popularData, topRatedData, upcomingData] = await Promise.all([
           fetchTrending(),
@@ -62,12 +69,17 @@ function App() {
                      process.env.REACT_APP_API_URL.includes('your-backend-url') ||
                      process.env.REACT_APP_API_URL.includes('vercel.app/api');
   
-  if (!isAuthenticated && !isDemoMode) {
+  console.log('Is Demo Mode:', isDemoMode);
+
+  // Fallback: Always show Auth if not authenticated, regardless of demo mode
+  if (!isAuthenticated) {
+    console.log('Showing Auth component');
     return <Auth onAuthSuccess={handleAuthSuccess} />;
   }
 
   // Always show the app, even if movie data fails to load
   if (loading) {
+    console.log('Showing loading state');
     return (
       <div className="loading">
         <div className="loading-spinner"></div>
@@ -75,6 +87,7 @@ function App() {
     );
   }
 
+  console.log('Showing main app');
   return (
     <div className="App">
       <Navbar user={user} onLogout={handleLogout} />
