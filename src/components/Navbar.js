@@ -2,7 +2,9 @@ import React from 'react';
 import './Navbar.css';
 
 const Navbar = ({ user, onLogout }) => {
-  const isDemoMode = !process.env.REACT_APP_API_URL || process.env.REACT_APP_API_URL.includes('your-backend-url');
+  const isDemoMode = !process.env.REACT_APP_API_URL || 
+                     process.env.REACT_APP_API_URL.includes('your-backend-url') ||
+                     process.env.REACT_APP_API_URL.includes('vercel.app/api');
   
   return (
     <nav className="navbar">

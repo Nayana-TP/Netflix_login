@@ -58,7 +58,9 @@ function App() {
   console.log('Is Authenticated:', isAuthenticated);
 
   // For Vercel deployment, show demo mode if backend is not available
-  const isDemoMode = !process.env.REACT_APP_API_URL || process.env.REACT_APP_API_URL.includes('your-backend-url');
+  const isDemoMode = !process.env.REACT_APP_API_URL || 
+                     process.env.REACT_APP_API_URL.includes('your-backend-url') ||
+                     process.env.REACT_APP_API_URL.includes('vercel.app/api');
   
   if (!isAuthenticated && !isDemoMode) {
     return <Auth onAuthSuccess={handleAuthSuccess} />;

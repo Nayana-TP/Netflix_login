@@ -13,7 +13,9 @@ const Auth = ({ onAuthSuccess }) => {
   const [message, setMessage] = useState('');
 
   // Check if we're in demo mode (no backend available)
-  const isDemoMode = !process.env.REACT_APP_API_URL || process.env.REACT_APP_API_URL.includes('your-backend-url');
+  const isDemoMode = !process.env.REACT_APP_API_URL || 
+                     process.env.REACT_APP_API_URL.includes('your-backend-url') ||
+                     process.env.REACT_APP_API_URL.includes('vercel.app/api');
 
   const handleChange = (e) => {
     setFormData({
